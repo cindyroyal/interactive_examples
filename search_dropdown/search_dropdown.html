@@ -1,0 +1,146 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<title>Search and Dropdown</title>
+</head>
+<body>
+<script>
+$(document).ready(function() {
+
+student = [
+  {
+    "Username": "user1",
+    "Name": "Jane Fonda",
+    "Gender": "F"
+  },
+  {
+    "Username": "user2",
+    "Name": "John Smith",
+    "Gender": "M"
+  },
+  {
+    "Username": "user3",
+    "Name": "Jack Smith",
+    "Gender": "M"
+  },
+  {
+    "Username": "user4",
+    "Name": "Jack McFarland",
+    "Gender": "M"
+  },
+  {
+    "Username": "user5",
+    "Name": "Jacqui Fonda",
+    "Gender": "F"
+  }
+];
+
+
+//for loop reads the json and returns the items about the students
+for (i=0; i<student.length; i++) {
+  $("#tbl").append("<tr><td>" + student[i].Username + "</td><td>" + student[i].Name + "</td><td>" + student[i].Gender + "</td></tr>" ) ;
+} // end for
+    
+
+function search() {
+    $('#tbl tbody tr').show();
+    
+    var form_name = $("#name1").val();
+    var sel_name = form_name.toLowerCase();
+    $("#word").html("You searched for: " + form_name);
+    
+    //for each row of table body do this function
+    $('#tbl tbody tr').each(function() {
+    //find the text in the 2nd td
+    var col_name = $(this).find('td').eq(1);
+    var col_search = col_name.text().toLowerCase();
+      
+      // if input name is not equal to the column name text, then hide it
+      if (col_search.indexOf(sel_name)=== -1) {
+      $(this).hide();
+      
+      }// end if
+      
+      });// end for  
+    
+};// end search
+ 
+ 
+   
+function drop() {
+    $('#tbl tbody tr').show();
+    
+    // captures whatever is selected in the dropdown
+    var sel_gender = document.getElementById("gender").value;
+
+    // if it is the top selection "Gender", then it just returns the table.
+    if (sel_gender == 'Gender') {
+      return;
+    }
+
+    // for each row of table body do this function
+    $('#tbl tbody tr').each(function() {
+     // find the text in the last td
+      var col_gender = $(this).find('td').eq(2);
+      
+      // if selected gender is not equal to the column gender text, then hide it
+      if (col_gender.text() !== sel_gender ) {
+          $(this).hide();
+      }// end if
+      
+    });// end for
+};// end drop
+  
+
+//execute functions
+$("#form1").submit(function() {
+  search();
+  return false;
+});// end search
+
+ 
+$('#gender').change(function() {
+    drop();
+  });  //end drop 
+});// end ready
+
+</script>
+
+
+
+<form id="form1">
+<p>Your search term: <input id="name1"></input>
+<input type="submit" value="Submit">
+</form>
+
+<div id="word">Search for a User</div>
+
+<p>Find Gender of Users</p>
+<form id="form2">
+<select id="gender">
+  <option value="Gender">Gender</option>
+  <option value="M">M</option>
+  <option value="F">F</option>
+
+</select>
+</form>
+
+<table id="tbl" width="300">
+<!-- Table heading -->
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Name</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  </tbody>
+</table>
+
+
+
+
+</body>
+</html>

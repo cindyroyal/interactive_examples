@@ -1,0 +1,64 @@
+<html>
+<head><title>Texas Grammy Artist App</title></head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="grammy.json"></script>
+
+<body>
+
+<p>Pick a Texas band to see related artists.</p>
+
+<form  id="form1" action=" "/>
+<select id="thedropdown">
+  <option value="0">Choose:</option>
+  <option value="Austin">Austin</option>
+  <option value="Houston">Houston</option>
+  <option value="San Antonio">San Antonio</option>
+</select>
+</form>
+
+<p>Texas Grammy Winning Artists</p> 
+<table width="500">
+<tr align="left"><th>Artist</th><th>City</th><th>Genre</th><th>Grammys</th></tr>
+<tbody id="grammy" >
+</tbody>
+</table>
+
+
+<script>
+// parses the json object name to be referenced in the script
+//when creating json, be careful for stray quotes or apostrophes in names; also line and paragraph breaks must be removed.
+grammyartists = JSON.parse(grammyartists);
+    
+    //this loop reads everything in the json file, before the dropdown is executed
+    for (i=0; i<grammyartists.length; i++) {
+  
+     $("#grammy").append("<tr><td>" + grammyartists[i].name + "</td><td>" + grammyartists[i].hometown + "</td><td>" + grammyartists[i].genre + "</td><td>" + grammyartists[i].grammynum + "</td></tr>" ) ;
+    } // end for
+ 
+ 
+ //function that executes when you submit the form
+document.getElementById("form1").onchange=function() {
+//clears out existing data from page
+$("#grammy").html("");
+// assigns value in dropdown to a variable
+thecity = document.getElementById("thedropdown").value;
+    
+    //for loop reads the json and returns the items based on the city selection in the dropdown
+    for (i=0; i<grammyartists.length; i++) {
+    
+      if (thecity == grammyartists[i].hometown) {
+        $("#grammy").append("<tr><td>" + grammyartists[i].name + "</td><td>" + grammyartists[i].hometown + "</td><td>" + grammyartists[i].genre + "</td><td>" + grammyartists[i].grammynum + "</td></tr>" ) ;
+      }// end if
+    
+    } // end for
+ 
+  
+return false; //need this so page doesn't refresh
+}//end onchange function
+  
+</script>
+
+
+
+</body>
+</html>
